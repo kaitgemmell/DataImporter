@@ -1,0 +1,19 @@
+[project]
+name = "dsf-data-manager"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "sqlalchemy",
+    "psycopg2-binary",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "black",
+    "ruff",
+]
