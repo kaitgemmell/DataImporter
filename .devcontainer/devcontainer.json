@@ -2,20 +2,31 @@
   "name": "Basic Python",
   "build": { "dockerfile": "Dockerfile" },
   "remoteUser": "vscode",
-  "customizations": {
-    "vscode": {
-      "extensions": ["ms-python.python"]
-    }
-  },
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/va-h/devcontainers-features/uv:1": {},
-    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
+    "ghcr.io/va-h/devcontainers-features/uv:1": {}
   },
-  "postCreateCommand": "uv sync",
-  "runArgs": ["--network=host"],
-  "mounts": [
-    "source=${localWorkspaceFolder}/.claude,target=/home/vscode/.claude,type=bind"
-  ]
+  
+  // Combines your existing uv sync with the global gemini-cli install
+  "postCreateCommand": "uv sync && npm install -g @google/gemini-cli",
+
+  "containerEnv": {
+    "GOOGLE_API_KEY": "${localEnv:GOOGLE_API_KEY}",
+    // Helps the CLI find the IDE companion through the Docker bridge
+    "GEMINI_CLI_IDE_HOST": "host.docker.internal" 
+  },
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "Google.gemini-cli-vscode-ide-companion" 
+      ]
+    }
+  },
+
+  // Required for the GEMINI_CLI_IDE_HOST to resolve properly
+  "runArgs": ["--add-host=host.docker.internal:host-gateway"]
 }

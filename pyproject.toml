@@ -9,6 +9,7 @@ dependencies = [
     "matplotlib",
     "sqlalchemy",
     "psycopg2-binary",
+    "tqdm",
 ]
 
 [dependency-groups]
